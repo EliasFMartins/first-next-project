@@ -5,6 +5,8 @@ import Link from "next/link";
 import Product from './product/[id]';
 import Stripe from "stripe";
 import Image from 'next/image';
+import Head from "next/head";
+import { metadata } from '../app/layout';
 
 
 interface SuccessProps {
@@ -15,6 +17,10 @@ interface SuccessProps {
   }
 }
 export default function Success ({customerName,product}: SuccessProps) {
+    <Head>
+        <title> Compra efetuada | Shop</title>
+        <meta name="robots" content="noindex" />
+      </Head>
   return(
     <SuccessContainer>
       <h1>Compr efetuada !</h1>
@@ -34,6 +40,16 @@ export default function Success ({customerName,product}: SuccessProps) {
 
 export const getServerSideProps: GetServerSideProps =async ({query}) => {
  const sessionId = String(query.session_id);
+
+if (!query.sessionId){
+  return{
+   redirect: {
+    destination: '/',
+    permanent: false,
+   }
+   
+  }
+}
 
  const session  =  await stripe.checkout.sessions.retrieve(sessionId, {
   expand: ['line_items', 'line_items.data.price.product']

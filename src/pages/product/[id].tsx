@@ -2,6 +2,7 @@ import { ImageContainer, ProductContainer, ProductDetails } from "@/styles/pages
 import { GetStaticPaths, GetStaticProps } from "next";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
+import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -37,6 +38,9 @@ export default function Product({product}: ProductProps ) {
   if (isFallback) {
     return <p>Loading....</p>
   }
+  <Head>
+        <title>{product.name} | Shop</title>
+  </Head>
   return(
  <ProductContainer>
   <ImageContainer>
